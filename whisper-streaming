@@ -1,1 +1,29 @@
+import whisper
+
+# Create a new whisper database file with a retention policy of 1 day, 60 second intervals, and a single retention archive
+whisper.create('example.wsp', [(1, 60)])
+
+# Open the whisper database file for writing
+db = whisper.open('example.wsp')
+
+# Write data points to the whisper database file
+for i in range(10):
+    timestamp = i * 60  # 60 second intervals
+    value = i
+    whisper.update(db, value, timestamp)
+
+# Close the whisper database file
+whisper.close(db)
+
+# Open the whisper database file for reading
+db = whisper.open('example.wsp')
+
+# Read data points from the whisper database file
+for i in range(10):
+    timestamp = i * 60  # 60 second intervals
+    value = whisper.fetch(db, timestamp)
+    print(f'Timestamp: {timestamp}, Value: {value}')
+
+# Close the whisper database file
+whisper.close(db)
 
